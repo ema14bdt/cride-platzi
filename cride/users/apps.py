@@ -1,3 +1,5 @@
+"""Users apps."""
+
 from django.apps import AppConfig
 
 class UserAppConfig(AppConfig):
