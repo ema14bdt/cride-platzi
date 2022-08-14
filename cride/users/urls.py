@@ -1,14 +1,18 @@
-"""Circles URLs."""
+"""Users URLs."""
 
 # Django
-from django.urls import path
+from django.urls import include, path
+
+# Django REST Framework
+from rest_framework.routers import DefaultRouter
 
 # Views
-from cride.users.views import UserSignUpAPIView, UserLoginAPIView, UserLogoutAPIView, AccountVerificationAPIView
+from .views import users as users_views
+
+
+router = DefaultRouter()
+router.register(r'users', users_views.UserViewSet, basename='users')
 
 urlpatterns = [
-    path('users/login/', UserLoginAPIView.as_view(), name='login'),
-    path('users/signup/', UserSignUpAPIView.as_view(), name='signup'),
-    path('users/logout/', UserLogoutAPIView.as_view(), name='logout'),
-    path('users/verify/', AccountVerificationAPIView.as_view(), name='verify'),
+    path('', include(router.urls)),
 ]
