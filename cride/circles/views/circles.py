@@ -7,6 +7,10 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from cride.circles.permissions.circles import IsCircleAdmin
 
+# Filters
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 # Models
 from cride.circles.models import Circle, Membership
 
@@ -19,6 +23,13 @@ class CircleViewSet(viewsets.ModelViewSet):
 
     serializer_class = CircleModelSerializer
     lookup_field = 'slug_name'
+
+    # Filters
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
+    search_fields = ('slug_name', 'name')
+    ordering_fields = ('rides_offered', 'rides_taken', 'name', 'created', 'member_limit')
+    # ordering = ('-members__count', 'rides_offered', '-rides_taken') # orden por defecto
+    filter_fields = ('verified', 'is_limited')
 
     def get_queryset(self):
         """Return list to public-only."""
